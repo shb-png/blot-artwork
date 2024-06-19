@@ -38,18 +38,28 @@ function yourCircle(radius, x=0, y=0, sideRes = 40, semiPercent = 100) {
   return finalCircle
 }
 
-
 //-----randomize it!!
+
+function randNumGen (lowerBound, upperBound) {
+  return Math.floor((Math.random() * (upperBound-lowerBound))+lowerBound+1)
+}
 // randomize eye location
-const eyeX = 30 //random x between 22 and 30
-const eyeY = 24 //random y between 24 and 6
+const eyeX = randNumGen(22, 30) //random x between 22 and 30
+const eyeY = randNumGen(6, 24) //random y between 24 and 6
 //randomize eye size
-const eyeSize = 7 // between 14 and 7
-const eyeInSize = eyeSize - 2 // minus a number between 1 and eyesize -1
+const eyeSize = randNumGen(7, 14) // between 14 and 7
+const eyeInSize = randNumGen(1, eyeSize-1) // minus a number between 1 and eyesize -1
 //randomize mouth height and orientation
-const mouthOrientation = 270 // either 270 or 90
-const mouthSize = 20 // between 20 and 6
-const mouthHeight = 7 // between 7 and 29
+const mouthDirection = randNumGen(0,2)
+let mouthOrientation = 0
+if (mouthDirection == 1){
+  mouthOrientation = 270
+}
+else{
+  mouthOrientation = 90
+}
+const mouthSize = randNumGen(6, 20) // between 20 and 6
+const mouthHeight = randNumGen(7, 29) // between 7 and 29
 //-----draw base circle
 drawLines(yourCircle(54))
 
