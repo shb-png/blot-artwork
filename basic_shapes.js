@@ -1,9 +1,4 @@
 
-// welcome to blot!
-
-// check out this guide to learn how to program in blot
-// https://blot.hackclub.com/editor?guide=start
-
 const width = 125;
 const height = 125;
 
@@ -23,40 +18,49 @@ function yourShape(n, sideLength) {
   bt.translate(finalPolygon, [width/2, height/2])
   return finalPolygon
 };
-
 function yourCos(yourValue) {
-  let finalNum = Math.cos(yourValue*(Math.PI/90))
+  let finalNum = Math.cos(yourValue*(Math.PI/180))
   return finalNum
 
 }
-
-// function yourCircle(radius) {
-//   const t = new bt.Turtle()
-//   const sideLength = 2*radius/yourCos((50 - 2) * 180 / 50)
-//   const angle = 180-((50 - 2) * 180 / 50)
-//   for (let i=0; i<50; i++) {
-//       t.forward(sideLength)
-//       t.left(angle)
-//   }
-//   let finalCircle = bt.originate(t.lines())
-//   bt.translate(finalCircle, [width/2, height/2])
-//   return finalCircle
-// }
-
-
+function yourCircle(radius, x=0, y=0, sideRes = 40, semiPercent = 100) {
   const c = new bt.Turtle()
-  const radius = 30 //distance from a corner to the center
-  const sideRes = 10
   const innerAngle = ((sideRes - 2) * 180 / sideRes)
   const rotateAngle = 180-innerAngle
-  let sideLength = 2*radius/yourCos(innerAngle/2)
-  console.log(`cos angle: ${yourCos(innerAngle/2)} inner angle: ${innerAngle}`)
-  for (let i=0; i<sideRes; i++) {
+  let sideLength = 2*radius*yourCos(innerAngle/2)
+  for (let i=0; i<sideRes*((semiPercent+1)/100); i++) {
       c.forward(sideLength)
       c.left(rotateAngle)
   }
   const finalCircle = bt.originate(c.lines())
   bt.translate(finalCircle, [width/2, height/2])
+  bt.translate(finalCircle, [x, y])
+  return finalCircle
+}
 
-// draw it
-drawLines(finalCircle)
+
+//-----randomize it!!
+// randomize eye location
+const eyeX = 30 //random x between 22 and 30
+const eyeY = 24 //random y between 24 and 6
+//randomize eye size
+const eyeSize = 7 // between 14 and 7
+const eyeInSize = eyeSize - 2 // minus a number between 1 and eyesize -1
+//randomize mouth height and orientation
+const mouthOrientation = 270 // either 270 or 90
+const mouthSize = 20 // between 20 and 6
+const mouthHeight = 7 // between 7 and 29
+//-----draw base circle
+drawLines(yourCircle(54))
+
+//-----draw eyes
+//eye white bit
+drawLines(yourCircle(eyeSize, -eyeX, eyeY))
+drawLines(yourCircle(eyeSize, eyeX, eyeY))
+
+//center of eye
+drawLines(yourCircle(eyeInSize, -eyeX, eyeY), "black")
+drawLines(yourCircle(eyeInSize, eyeX, eyeY), "black")
+
+//-----draw mouth
+drawLines(bt.rotate(yourCircle(mouthSize, 0, -mouthHeight, 40, 50), mouthOrientation))
